@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -51,7 +52,17 @@ type ApiError struct {
 }
 
 func (s *APIServer) handleUser(w http.ResponseWriter, r *http.Request) error {
-	return nil
+	if r.Method == "GET" {
+		return s.handleGetUser(w, r)
+	}
+	if r.Method == "POST" {
+		return s.handleCreateUser(w, r)
+	}
+	if r.Method == "DELETE" {
+		return s.handleDeleteUser(w, r)
+	}
+
+	return fmt.Errorf("Method not allowed %s", r.Method)
 }
 
 func (s *APIServer) handleGetUser(w http.ResponseWriter, r *http.Request) error {
@@ -67,6 +78,18 @@ func (s *APIServer) handleDeleteUser(w http.ResponseWriter, r *http.Request) err
 }
 
 func (s *APIServer) handleBudget(w http.ResponseWriter, r *http.Request) error {
+	if r.Method == "GET" {
+		s.handleGetBudget(w, r)
+	}
+	if r.Method == "POST" {
+		s.handleCreateBudget(w, r)
+	}
+	if r.Method == "DELETE" {
+		s.handleDeleteBudget(w, r)
+	}
+	if r.Method == "UPDATE" {
+		s.handleUpdateBudget(w, r)
+	}
 	return nil
 }
 
@@ -87,6 +110,18 @@ func (s *APIServer) handleDeleteBudget(w http.ResponseWriter, r *http.Request) e
 }
 
 func (s *APIServer) handleBills(w http.ResponseWriter, r *http.Request) error {
+	if r.Method == "GET" {
+		s.handleGetBills(w, r)
+	}
+	if r.Method == "POST" {
+		s.handleCreateBills(w, r)
+	}
+	if r.Method == "DELETE" {
+		s.handleDeleteBills(w, r)
+	}
+	if r.Method == "UPDATE" {
+		s.handleUpdateBills(w, r)
+	}
 	return nil
 }
 
