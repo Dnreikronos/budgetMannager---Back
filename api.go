@@ -61,11 +61,17 @@ func (s *APIServer) handleUser(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "DELETE" {
 		return s.handleDeleteUser(w, r)
 	}
-
+	if r.Method == "UPDATE" {
+		return s.handleUpdateUser(w, r)
+	}
 	return fmt.Errorf("Method not allowed %s", r.Method)
 }
 
 func (s *APIServer) handleGetUser(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+func (s *APIServer) handleUpdateUser(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
@@ -79,18 +85,18 @@ func (s *APIServer) handleDeleteUser(w http.ResponseWriter, r *http.Request) err
 
 func (s *APIServer) handleBudget(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "GET" {
-		s.handleGetBudget(w, r)
+		return s.handleGetBudget(w, r)
 	}
 	if r.Method == "POST" {
-		s.handleCreateBudget(w, r)
+		return s.handleCreateBudget(w, r)
 	}
 	if r.Method == "DELETE" {
-		s.handleDeleteBudget(w, r)
+		return s.handleDeleteBudget(w, r)
 	}
 	if r.Method == "UPDATE" {
-		s.handleUpdateBudget(w, r)
+		return s.handleUpdateBudget(w, r)
 	}
-	return fmt.Errorf("Method not allower %s", r.Method)
+	return fmt.Errorf("Method not allowed %s", r.Method)
 }
 
 func (s *APIServer) handleGetBudget(w http.ResponseWriter, r *http.Request) error {
@@ -111,16 +117,16 @@ func (s *APIServer) handleDeleteBudget(w http.ResponseWriter, r *http.Request) e
 
 func (s *APIServer) handleBills(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "GET" {
-		s.handleGetBills(w, r)
+		return s.handleGetBills(w, r)
 	}
 	if r.Method == "POST" {
-		s.handleCreateBills(w, r)
+		return s.handleCreateBills(w, r)
 	}
 	if r.Method == "DELETE" {
-		s.handleDeleteBills(w, r)
+		return s.handleDeleteBills(w, r)
 	}
 	if r.Method == "UPDATE" {
-		s.handleUpdateBills(w, r)
+		return s.handleUpdateBills(w, r)
 	}
 	return fmt.Errorf("Method not allowed %s", r.Method)
 }
