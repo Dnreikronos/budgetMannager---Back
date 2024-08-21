@@ -90,7 +90,7 @@ func (s *APIServer) handleBudget(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "UPDATE" {
 		s.handleUpdateBudget(w, r)
 	}
-	return nil
+	return fmt.Errorf("Method not allower %s", r.Method)
 }
 
 func (s *APIServer) handleGetBudget(w http.ResponseWriter, r *http.Request) error {
@@ -122,7 +122,7 @@ func (s *APIServer) handleBills(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "UPDATE" {
 		s.handleUpdateBills(w, r)
 	}
-	return nil
+	return fmt.Errorf("Method not allowed %s", r.Method)
 }
 
 func (s *APIServer) handleGetBills(w http.ResponseWriter, r *http.Request) error {
