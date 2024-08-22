@@ -1,0 +1,27 @@
+services:
+
+  db:
+    image: postgres:16-alpine
+    cotainer_name: budget_db
+
+  environment:
+    - POSTGRES_USER=${DB_USER}
+    - POSTGRES_PASSWORD=${DB_PASSWORD}
+    - POSTGRES_DB=budgetmannager
+  volumes:
+    - postgres_data:/var/lib/postgresql/data
+  ports:
+    - 5432:5432
+
+  app:
+    build: .
+    container_name: budget_application
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+    ports: -9090:9090
+    command: [ "./main" ]
+
+volumes:
+  postgres_data:
