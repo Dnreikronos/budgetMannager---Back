@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . . 
 
-ENV DATABASE_URL={DATABASE_URL}
+ENV DATABASE_URL={$DATABASE_URL}
 
 RUN go buil -o main .
 
