@@ -1,8 +1,8 @@
 build:
-	@go build -o bin/budgetMannager
+	@go build -o bin/budgetMannager/cmd
 
 run: build
-	@./bin/budgetMannager
+	@./bin/budgetMannager/cmd
 
-test: 
+test:
 	@go test -v ./...
