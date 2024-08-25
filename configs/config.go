@@ -44,7 +44,7 @@ func Load() error {
 	viper.AddConfigPath("./configs")
 	viper.AutomaticEnv()
 
-	err := viper.ReadConfig()
+	err := viper.ReadInConfig()
 	if err != nil {
 		if err, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			return err
@@ -73,6 +73,6 @@ func GetDB() DBConfig {
 	return cfg.DB
 }
 
-func getAPI() APIConfig {
-	return cfg.API
+func GetServerPort() string {
+	return cfg.API.Port
 }
