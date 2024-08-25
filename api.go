@@ -23,7 +23,6 @@ func makeHttpHandleFunc(f apiFunc) http.HandlerFunc {
 			WriteJSON(w, http.StatusBadRequest, ApiError{Error: err.Error()})
 		}
 	}
-}
 
 type APIServer struct {
 	listenAddr string
@@ -44,7 +43,6 @@ func (s *APIServer) Run() {
 
 	log.Println("Json API running on port:", s.listenAddr)
 	http.ListenAndServe(s.listenAddr, router)
-
 }
 
 type ApiError struct {
