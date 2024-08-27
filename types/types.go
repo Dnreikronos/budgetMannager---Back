@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	ID       int    `json:"id"`
+	ID       int64  `json:"id"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
 	Password string `json:"password"`
@@ -14,7 +14,7 @@ type User struct {
 }
 
 type Budget struct {
-	ID       int    `json:"id"`
+	ID       int64  `json:"id"`
 	Value    string `json:"value"`
 	UserID   int    `json:"userid"`
 	Currency string `json:"currency"`
@@ -22,7 +22,7 @@ type Budget struct {
 }
 
 type Bills struct {
-	ID        int       `json:"id"`
+	ID        int64     `json:"id"`
 	Value     string    `json:"value"`
 	UserID    int       `json:"userid"`
 	BudgetID  int       `json:"budgetid"`

@@ -17,7 +17,7 @@ var (
 	dbPort     = os.Getenv("5432")
 )
 
-func openConnectionDB() (*sql.DB, error) {
+func OpenConnection() (*sql.DB, error) {
 	connectionInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		dbHost, dbPort, dbUser, dbPassword, dbName)
 
