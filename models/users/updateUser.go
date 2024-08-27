@@ -1,7 +1,9 @@
 package models
 
+import "github.com/Dnreikronos/budgetMannager---Back/db"
+
 func updateUser(user User) (id int64, err error) {
-	conn, err := db.openConnectionDB()
+	conn, err := db.OpenConnection()
 	if err != nil {
 		return
 	}
