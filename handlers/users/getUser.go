@@ -25,5 +25,5 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Add("Content-Type", "application/json")
-	json.NewDecoder(w).Encode(user)
+	json.NewEncoder(w).Encode(user)
 }
