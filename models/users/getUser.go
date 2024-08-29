@@ -12,7 +12,7 @@ func Get(int int64) (user User, err error) {
 
 	defer conn.Close()
 
-	row := QueryRow(`SELECT * FROM user WHERE id=$1`, id)
+	row := conn.QueryRow(`SELECT * FROM user WHERE id=$1`, user.ID)
 
 	err = row.Scan(&user.ID, &user.Email, &user.Name, &user.Password, &user.Role, &user.IsActive)
 
