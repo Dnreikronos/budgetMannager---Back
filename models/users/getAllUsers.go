@@ -2,7 +2,7 @@ package models
 
 import "github.com/Dnreikronos/budgetMannager---Back/db"
 
-func getAll() (users []User) {
+func GetAll() (user []User, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return
@@ -15,12 +15,12 @@ func getAll() (users []User) {
 		return
 	}
 	for rows.Next() {
-		var user User
-		err = rows.Scan(&user.ID, &user.Email, &user.Name, &user.Password, &user.Role, &user.IsActive)
+		var users User
+		err = rows.Scan(&users.ID, &users.Email, &users.Name, &users.Password, &users.Role, &users.IsActive)
 		if err != nil {
 			continue
 		}
-		users = append(users, user)
+		user = append(user, users)
 	}
 	return
 }

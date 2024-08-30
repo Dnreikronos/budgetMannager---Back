@@ -14,7 +14,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		log.Println("Error in trying to do decode of Json: %v", err)
+		log.Printf("Error in trying to do decode of Json: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
