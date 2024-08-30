@@ -10,7 +10,7 @@ func CreateBills(bills Bills) (id int64, err error) {
 
 	defer conn.Close()
 
-	sql := `INSERT INTO bills (id, value, userid, budgetid, category, status, created_at, updated_at)`
+	sql := `INSERT INTO bills (id, value, user_id, budget_id, category, status, created_at, updated_at)`
 
 	err = conn.QueryRow(sql, bills.ID, bills.Value, bills.UserID, bills.BudgetID, bills.Category, bills.Status, bills.CreatedAt, bills.UpdatedAt).Scan(&id)
 
