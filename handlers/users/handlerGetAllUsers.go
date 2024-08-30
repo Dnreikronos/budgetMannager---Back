@@ -11,7 +11,7 @@ import (
 func getAllUser(w http.ResponseWriter, r *http.Request) {
 	user, err := models.GetAll()
 	if err != nil {
-		log.Println("Error at trying to request the register: %v", err)
+		log.Printf("Error at trying to request the register: %v", err)
 	}
 
 	w.Header().Add("Content-Type", "application/json")
