@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	models "github.com/Dnreikronos/budgetMannager---Back/models/budgets"
+	"github.com/Dnreikronos/budgetMannager---Back/budgets/models"
 )
 
 func createBudget(w http.ResponseWriter, r *http.Request) {

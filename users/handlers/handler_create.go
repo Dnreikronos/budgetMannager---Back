@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	models "github.com/Dnreikronos/budgetMannager---Back/models/users"
+	"github.com/Dnreikronos/budgetMannager---Back/users/models"
 )
 
 func createUser(w http.ResponseWriter, r *http.Request) {

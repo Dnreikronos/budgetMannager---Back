@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	models "github.com/Dnreikronos/budgetMannager---Back/models/users"
+	"github.com/Dnreikronos/budgetMannager---Back/users/models"
 	"github.com/go-chi/chi"
 )
 
