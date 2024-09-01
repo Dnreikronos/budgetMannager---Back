@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
 )
@@ -15,6 +16,11 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 	idStr := r.URL.Query().Get("id")
 	if idStr == "" {
+		http.Error(w, "Invalid 'id' format", http.StatusBadRequest)
+	}
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
 		http.Error(w, "Invalid 'id' format", http.StatusBadRequest)
 	}
 
