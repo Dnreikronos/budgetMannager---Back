@@ -2,7 +2,7 @@ package models
 
 import "github.com/Dnreikronos/budgetMannager---Back/db"
 
-func GetBills(bills Bills) (id int64, err error) {
+func GetBills(id int64) (bills Bills, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return
