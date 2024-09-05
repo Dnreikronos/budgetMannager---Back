@@ -9,7 +9,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
 )
 
-func Delete(w http.ResponseWriter, r *http.Request) {
+func DeleteBills(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodDelete {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
