@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func GetUser(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		log.Printf("Error at trying to do parse of id: %v", id)

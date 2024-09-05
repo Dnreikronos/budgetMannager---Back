@@ -9,7 +9,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/users/models"
 )
 
-func createUser(w http.ResponseWriter, r *http.Request) {
+func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 
 	err := json.NewDecoder(r.Body).Decode(&user)
