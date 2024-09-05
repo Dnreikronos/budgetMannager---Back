@@ -9,7 +9,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/users/models"
 )
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodDelete {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
