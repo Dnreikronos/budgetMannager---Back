@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func Get(w http.ResponseWriter, r *http.Request) {
+func GetBills(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		log.Printf("Error at trying to parse ID: %v", id)

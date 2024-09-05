@@ -9,7 +9,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
 )
 
-func Insert(w http.ResponseWriter, r *http.Request) {
+func CreateBills(w http.ResponseWriter, r *http.Request) {
 	var bills models.Bills
 
 	err := json.NewDecoder(r.Body).Decode(&bills)
