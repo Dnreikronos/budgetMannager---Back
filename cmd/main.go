@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"github.com/Dnreikronos/budgetMannager---Back/configs"
-	"github.com/Dnreikronos/budgetMannager---Back/users/handlers"
+	"github.com/Dnreikronos/budgetMannager---Back/handlers"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 )
 
 func main() {
-
 	r := chi.NewRouter()
 
 	corsMiddleware := cors.New(cors.Options{
@@ -29,10 +29,8 @@ func main() {
 	r.Use(corsMiddleware.Handler)
 
 	r.Post("/createUser", handlers.CreateUser)
-	r.Get("/getAllUsers", handlers.GetAllUsers)
-	r.Get("/{id}", handlers.GetUser)
-	r.Put("/updateUser", handlers.UpdateUser)
-	r.Delete("/deleteUser", handlers.DeleteUser)
+
+	r.Post("/createBudget", handlers.UpdateBudget)
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 }
