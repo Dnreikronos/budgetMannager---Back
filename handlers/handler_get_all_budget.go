@@ -8,7 +8,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/budgets/models"
 )
 
-func GetAll(w http.ResponseWriter, r *http.Request) {
+func GetAllBudget(w http.ResponseWriter, r *http.Request) {
 	budget, err := models.GetAll()
 	if err != nil {
 		log.Printf("Error at trying to request the register: %v", err)

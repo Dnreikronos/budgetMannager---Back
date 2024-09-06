@@ -8,7 +8,7 @@ import (
 	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
 )
 
-func GetAll(w http.ResponseWriter, r *http.Request) {
+func GetAllBills(w http.ResponseWriter, r *http.Request) {
 	bills, err := models.GetAll()
 	if err != nil {
 		log.Printf("Error at trying to parse the register: %v", err)
