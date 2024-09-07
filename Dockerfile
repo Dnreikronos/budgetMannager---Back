@@ -6,10 +6,13 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY . . 
+COPY . .
 
 ENV DATABASE_URL={$DATABASE_URL}
 
-RUN go buil -o main .
+RUN go build -o cmd/main ./cmd
+
+
+EXPOSE 9090
 
 CMD ["./main"]
