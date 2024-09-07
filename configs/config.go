@@ -2,6 +2,8 @@ package configs
 
 import (
 	"log"
+	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
@@ -27,52 +29,73 @@ type DBConfig struct {
 }
 
 func init() {
-	viper.SetDefault("api_port", "9000")
+	viper.SetDefault("api.port", "9090")
 	viper.SetDefault("database.host", "${DB_HOST}")
 	viper.SetDefault("database.port", "${DB_PORT}")
 	viper.SetDefault("database.user", "${DB_USER}")
 	viper.SetDefault("database.pass", "${DB_PASSWORD}")
+	viper.SetDefault("database.database", "default_db") // Added default value
 }
 
 func Load() error {
+	// Load environment variables from .env file if it exists
 	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found, relying on environments variables")
+		log.Println("No .env file found, relying on environment variables")
 	}
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath("./configs")
+	viper.AddConfigPath("./configs") // Adjust the path as needed
 	viper.AutomaticEnv()
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		if err, ok := err.(viper.ConfigFileNotFoundError); !ok {
+	// Read the configuration file
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			return err
 		}
 	}
 
-	cfg = new(config)
-
-	cfg.API = APIConfig{
-		Port: viper.GetString("api.port"),
+	// Initialize cfg
+	cfg = &config{
+		API: APIConfig{
+			Port: viper.GetString("api.port"),
+		},
+		DB: DBConfig{
+			Host:     viper.GetString("database.host"),
+			Port:     viper.GetString("database.port"),
+			User:     viper.GetString("database.user"),
+			Password: viper.GetString("database.pass"), // Fixed key
+			Database: viper.GetString("database.database"),
+		},
 	}
 
-	cfg.DB = DBConfig{
-		Host:     viper.GetString("database.host"),
-		Port:     viper.GetString("database.port"),
-		User:     viper.GetString("darabase.user"),
-		Password: viper.GetString("database.password"),
-		Database: viper.GetString("database.name"),
-	}
-
-	log.Printf("Database config: %+vZ\n", cfg.DB)
+	log.Printf("Database config: %+v", cfg.DB)
 	return nil
 }
 
+func replaceEnvVariables() {
+	for _, key := range viper.AllKeys() {
+		value := viper.GetString(key)
+		if strings.HasPrefix(value, "${") && strings.HasSuffix(value, "}") {
+			envKey := value[2 : len(value)-1]
+			envValue := os.Getenv(envKey)
+			if envValue != "" {
+				viper.Set(key, envValue)
+			}
+		}
+	}
+}
+
 func GetDB() DBConfig {
+	if cfg == nil {
+		log.Fatal("Configuration is not initialized")
+	}
 	return cfg.DB
 }
 
 func GetServerPort() string {
+	if cfg == nil {
+		log.Fatal("Configuration is not initialized")
+	}
 	return cfg.API.Port
 }

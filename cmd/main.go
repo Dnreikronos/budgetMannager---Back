@@ -2,23 +2,32 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/Dnreikronos/budgetMannager---Back/configs"
 	"github.com/Dnreikronos/budgetMannager---Back/handlers"
-
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 )
 
 func main() {
+	if err := configs.Load(); err != nil {
+		log.Fatalf("Error loading configuration: %v", err)
+	}
+
+	serverPort := configs.GetServerPort()
+	log.Printf("Server port: %s", serverPort)
+
+	dbConfig := configs.GetDB()
+	log.Printf("Config DB: %s", dbConfig)
+
 	r := chi.NewRouter()
 
 	corsMiddleware := cors.New(cors.Options{
 		AllowedOrigins: []string{
 			"http://localhost:5173",
 			"http://localhost:9000",
-			"*",
 		},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "X-Requested-With"},
@@ -30,21 +39,22 @@ func main() {
 
 	r.Post("/createUser", handlers.CreateUser)
 	r.Get("/getAllUsers", handlers.GetAllUsers)
-	r.Get("/GetUser{id}", handlers.GetUser)
-	r.Put("/UpdateUser", handlers.UpdateUser)
+	r.Get("/getUser/{id}", handlers.GetUser)
+	r.Put("/updateUser", handlers.UpdateUser)
 	r.Delete("/deleteUser", handlers.DeleteUser)
 
-	r.Post("/CreateBudget", handlers.CreateBudget)
-	r.Get("/GetAllBudget", handlers.GetAllBudget)
-	r.Get("/GetBudget{id}", handlers.GetBudget)
-	r.Put("/UpdateBudget", handlers.UpdateBudget)
-	r.Delete("/DeleteBudgets", handlers.DeleteBudget)
+	r.Post("/createBudget", handlers.CreateBudget)
+	r.Get("/getAllBudgets", handlers.GetAllBudget)
+	r.Get("/getBudget/{id}", handlers.GetBudget)
+	r.Put("/updateBudget", handlers.UpdateBudget)
+	r.Delete("/deleteBudgets", handlers.DeleteBudget)
 
-	r.Post("/CreateBills", handlers.CreateBills)
-	r.Get("/GetAllBills", handlers.GetAllBills)
-	r.Get("/GetBills{id}", handlers.GetBills)
-	r.Put("/UpdateBills", handlers.UpdateBills)
-	r.Delete("/DeleteBills", handlers.DeleteBills)
+	r.Post("/createBills", handlers.CreateBills)
+	r.Get("/getAllBills", handlers.GetAllBills)
+	r.Get("/getBills/{id}", handlers.GetBills)
+	r.Put("/updateBills", handlers.UpdateBills)
+	r.Delete("/deleteBills", handlers.DeleteBills)
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
+
 }
