@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/bills"
 )
 
 func DeleteBills(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +27,7 @@ func DeleteBills(w http.ResponseWriter, r *http.Request) {
 
 	bills := models.Bills{ID: id}
 
-	deletedID, err := models.DeleteBills(bills)
+	deletedID, err := querys.DeleteBills(bills)
 	if err != nil {
 		http.Error(w, "Error deleting bills", http.StatusInternalServerError)
 		return

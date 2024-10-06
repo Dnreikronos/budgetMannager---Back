@@ -1,5 +1,6 @@
 package models
 
+
 type User struct {
 	ID       int64  `json:"id"`
 	Email    string `json:"email"`
@@ -8,3 +9,4 @@ type User struct {
 	Role     string `json:"role"`
 	IsActive bool   `json:"is_active"`
 }
+

@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Dnreikronos/budgetMannager---Back/users/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/user"
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	user, err := models.GetAll()
+	user, err := querys.GetAll()
 	if err != nil {
 		log.Printf("Error at trying to request the register: %v", err)
 	}

@@ -1,10 +1,11 @@
-package models
+package querys
 
 import (
 	"github.com/Dnreikronos/budgetMannager---Back/db"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
 )
 
-func Get(id int64) (user User, err error) {
+func Get(id int64) (user models.User, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return

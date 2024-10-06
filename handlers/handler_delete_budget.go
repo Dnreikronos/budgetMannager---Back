@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Dnreikronos/budgetMannager---Back/budgets/models"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/budgets"
 )
 
 func DeleteBudget(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,7 @@ func DeleteBudget(w http.ResponseWriter, r *http.Request) {
 
 	budget := models.Budget{ID: id}
 
-	IDDeleted, err := models.DeleteBudget(budget)
+	IDDeleted, err := querys.DeleteBudget(budget)
 	if err != nil {
 		http.Error(w, "Error deleting budget", http.StatusInternalServerError)
 		return

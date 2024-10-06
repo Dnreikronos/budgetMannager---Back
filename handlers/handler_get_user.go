@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Dnreikronos/budgetMannager---Back/users/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/user"
 	"github.com/go-chi/chi"
 )
 
@@ -18,7 +18,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := models.Get(int64(id))
+	user, err := querys.Get(int64(id))
 	if err != nil {
 		log.Printf("Error at trying to update register: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

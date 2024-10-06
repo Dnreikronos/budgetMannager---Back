@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Dnreikronos/budgetMannager---Back/bills/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/bills"
 	"github.com/go-chi/chi"
 )
 
@@ -18,7 +18,7 @@ func GetBills(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bills, err := models.GetBills(int64(id))
+	bills, err := querys.GetBills(int64(id))
 	if err != nil {
 		log.Printf("Error at trying to update register: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
