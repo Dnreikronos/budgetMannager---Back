@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Dnreikronos/budgetMannager---Back/users/models"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/user"
 )
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{ID: id}
 
-	deletedID, err := models.DeleteUser(user)
+	deletedID, err := querys.DeleteUser(user)
 	if err != nil {
 		http.Error(w, "Error deleting user", http.StatusInternalServerError)
 		return

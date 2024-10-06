@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Dnreikronos/budgetMannager---Back/users/models"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/user"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := models.InsertUser(user)
+	id, err := querys.InsertUser(user)
 
 	var resp map[string]any
 

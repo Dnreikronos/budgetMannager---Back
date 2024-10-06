@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Dnreikronos/budgetMannager---Back/budgets/models"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/budgets"
 )
 
 func CreateBudget(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,7 @@ func CreateBudget(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := models.InsertBudget(budget)
+	id, err := querys.InsertBudget(budget)
 
 	var resp map[string]any
 

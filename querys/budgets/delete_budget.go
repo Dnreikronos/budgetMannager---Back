@@ -1,19 +1,21 @@
-package models
+package querys
 
 import (
 	"github.com/Dnreikronos/budgetMannager---Back/db"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
 )
 
-func DeleteUser(user User) (id int64, err error) {
+func DeleteBudget(budget models.Budget) (id int64, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return
 	}
+
 	defer conn.Close()
 
-	sql := `DELETE FROM user WHERE id = $1`
+	sql := `DELETE FROM budget WHERE id = $1`
 
-	result, err := conn.Exec(sql, user.ID)
+	result, err := conn.Exec(sql, budget.ID)
 	if err != nil {
 		return
 	}
@@ -24,7 +26,7 @@ func DeleteUser(user User) (id int64, err error) {
 	}
 
 	if rowsAffected > 0 {
-		id = user.ID
+		id = budget.ID
 	} else {
 		id = 0
 	}

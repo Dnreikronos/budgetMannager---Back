@@ -1,8 +1,12 @@
-package models
+package querys
 
-import "github.com/Dnreikronos/budgetMannager---Back/db"
 
-func InsertBudget(budget Budget) (id int64, err error) {
+import (
+	"github.com/Dnreikronos/budgetMannager---Back/db"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+)
+
+func InsertBudget(budget models.Budget) (id int64, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return

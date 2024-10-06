@@ -1,8 +1,11 @@
-package models
+package querys
 
-import "github.com/Dnreikronos/budgetMannager---Back/db"
+import (
+	"github.com/Dnreikronos/budgetMannager---Back/db"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+)
 
-func GetAll() (budget []Budget, err error) {
+func GetAll() (budget []models.Budget, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return
@@ -15,7 +18,7 @@ func GetAll() (budget []Budget, err error) {
 		return
 	}
 	for rows.Next() {
-		var budgets Budget
+		var budgets models.Budget
 		err = rows.Scan(&budgets.ID, &budgets.Value, &budgets.UserID, &budgets.Currency, &budgets.Validity)
 		if err != nil {
 			continue

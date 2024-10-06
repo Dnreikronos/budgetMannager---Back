@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Dnreikronos/budgetMannager---Back/budgets/models"
+	querys "github.com/Dnreikronos/budgetMannager---Back/querys/budgets"
 )
 
 func GetAllBudget(w http.ResponseWriter, r *http.Request) {
-	budget, err := models.GetAll()
+	budget, err := querys.GetAll()
 	if err != nil {
 		log.Printf("Error at trying to request the register: %v", err)
 	}

@@ -1,8 +1,11 @@
-package models
+package querys
 
-import "github.com/Dnreikronos/budgetMannager---Back/db"
+import (
+	"github.com/Dnreikronos/budgetMannager---Back/db"
+	"github.com/Dnreikronos/budgetMannager---Back/models"
+)
 
-func UpdateBills(bills Bills) (id int64, err error) {
+func UpdateBills(bills models.Bills) (id int64, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return

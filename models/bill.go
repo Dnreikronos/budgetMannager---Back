@@ -5,7 +5,7 @@ import "time"
 type Bills struct {
 	ID        int64     `json:"id"`
 	Value     string    `json:"value"`
-	UserID    int       `json:"user_id"`
+	UserID    User      `json:"user_id"`
 	BudgetID  int       `json:"budget_id"`
 	Category  string    `json:"category"`
 	Status    string    `json:"status"`
