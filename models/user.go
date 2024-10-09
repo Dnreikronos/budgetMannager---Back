@@ -1,12 +1,59 @@
 package models
 
+import (
+	"time"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
+
+type Role = int16
+
+const (
+	Admin Role = iota
+	Viewer
+)
+
+type SignInInput struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+type UserResponse struct {
+	ID        uuid.UUID `json:"id,omitempty"`
+	Name      string    `json:"name,omitempty"`
+	Email     string    `json:"email,omitempty"`
+	Role      string    `json:"role,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Verified  bool      `json:"verified"`
+}
 
 type User struct {
-	ID       int64  `json:"id"`
-	Email    string `json:"email"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-	IsActive bool   `json:"is_active"`
+	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	Photo     string    `json:"photo"`
+	Verified  bool      `json:"verified"`
+	Password  string    `json:"password"`
+	Role      string    `json:"role"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func FilteredResponse(user User) UserResponse {
+	return UserResponse{
+		ID:        user.ID,
+		Email:     user.Email,
+		Name:      user.Name,
+		Role:      user.Role,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}
+}
+
+func (u *User) BeforeCreate(d *gorm.DB) (err error) {
+	u.ID = uuid.New()
+	return
 }
 
