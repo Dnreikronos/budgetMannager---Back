@@ -55,4 +55,28 @@ func CreateUserHandler(c *gin.Context) {
   c.JSON(http.StatusCreated, models.FilteredResponse(newUser))
 }
 
+func LoginHandler(c *gin.Context) {
+  var input models.SignInInput
+  if err := c.ShouldBindJSON(&input); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+  var existingUser models.User
+  db := c.MustGet("db").(*gorm.DB)
+  if err := db.Where("email = ?", input.Email).First(&existingUser).Error; err != nil {
+    c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+    return
+  }
+  if err := VerifyPassword(existingUser.Password, input.Password); err != nil {
+    c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+    return
+  } 
+  token, err := GenerateToken(existingUser)
+  if err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": "could not generate token"})
+    return
+  }
+  c.JSON(http.StatusOK, gin.H{"token": token})
+}
+
 
