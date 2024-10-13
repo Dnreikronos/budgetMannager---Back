@@ -7,8 +7,7 @@ import (
 
 	"github.com/Dnreikronos/budgetMannager---Back/configs"
 	"github.com/Dnreikronos/budgetMannager---Back/handlers"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -22,38 +21,23 @@ func main() {
 	dbConfig := configs.GetDB()
 	log.Printf("Config DB: %s", dbConfig)
 
-	r := chi.NewRouter()
+	r := gin.Default()
 
-	corsMiddleware := cors.New(cors.Options{
-		AllowedOrigins: []string{
-			"http://localhost:5173",
-			"http://localhost:9000",
-		},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "X-Requested-With"},
-		ExposedHeaders:   []string{"Link"},
-		AllowCredentials: true,
-		MaxAge:           300,
-	})
-	r.Use(corsMiddleware.Handler)
+	// corsMiddleware := cors.New(cors.Options{
+	// 	AllowedOrigins: []string{
+	// 		"http://localhost:5173",
+	// 		"http://localhost:9000",
+	// 	},
+	// 	AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+	// 	AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "X-Requested-With"},
+	// 	ExposedHeaders:   []string{"Link"},
+	// 	AllowCredentials: true,
+	// 	MaxAge:           300,
+	// })
+	//
 
-	r.Post("/createUser", handlers.CreateUser)
-	r.Get("/getAllUsers", handlers.GetAllUsers)
-	r.Get("/getUser/{id}", handlers.GetUser)
-	r.Put("/updateUser", handlers.UpdateUser)
-	r.Delete("/deleteUser", handlers.DeleteUser)
-
-	r.Post("/createBudget", handlers.CreateBudget)
-	r.Get("/getAllBudgets", handlers.GetAllBudget)
-	r.Get("/getBudget/{id}", handlers.GetBudget)
-	r.Put("/updateBudget", handlers.UpdateBudget)
-	r.Delete("/deleteBudgets", handlers.DeleteBudget)
-
-	r.Post("/createBills", handlers.CreateBills)
-	r.Get("/getAllBills", handlers.GetAllBills)
-	r.Get("/getBills/{id}", handlers.GetBills)
-	r.Put("/updateBills", handlers.UpdateBills)
-	r.Delete("/deleteBills", handlers.DeleteBills)
+	r.POST("/register", handlers.CreateUserHandler)
+	r.POST("/login", handlers.LoginHandler)
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 
