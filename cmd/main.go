@@ -2,24 +2,29 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/Dnreikronos/budgetMannager---Back/configs"
+	conn "github.com/Dnreikronos/budgetMannager---Back/db/connetion"
 	"github.com/Dnreikronos/budgetMannager---Back/handlers"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	if err := configs.Load(); err != nil {
-		log.Fatalf("Error loading configuration: %v", err)
-	}
+	
+  err := godotenv.Load(".env")
+  if err != nil {
+    panic(err)
+  }
+  
+  db, err := conn.OpenConnection()
+  if err != nil {
+    panic (err)
+  }
 
-	serverPort := configs.GetServerPort()
-	log.Printf("Server port: %s", serverPort)
+ conn.RunMigrations(db)
 
-	dbConfig := configs.GetDB()
-	log.Printf("Config DB: %s", dbConfig)
 
 	r := gin.Default()
 
