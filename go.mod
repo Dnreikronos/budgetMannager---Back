@@ -3,15 +3,14 @@ module github.com/Dnreikronos/budgetMannager---Back
 go 1.22.2
 
 require (
+	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
-	github.com/go-chi/chi v1.5.5
-	github.com/go-chi/cors v1.2.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.4.0
 	github.com/joho/godotenv v1.5.1
-	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.19.0
 	golang.org/x/crypto v0.27.0
+	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.12
 )
 
@@ -63,5 +62,4 @@ require (
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/postgres v1.5.9 // indirect
 )
