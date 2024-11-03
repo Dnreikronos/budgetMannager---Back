@@ -101,3 +101,20 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func ProfileHandler(c *gin.Context) {
+	userID := c.MustGet("userID").(string)
+
+	var u models.User
+	db := c.MustGet("db").(*gorm.DB)
+	if err := db.First(&u, "id = ?", userID).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, models.FilteredResponse(u))
+}
