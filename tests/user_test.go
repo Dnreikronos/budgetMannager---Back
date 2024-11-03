@@ -47,3 +47,24 @@ func TestCreateUserHandler(t *testing.T) {
 	assert.NotEmpty(t, user.ID)
 	assert.True(t, user.Verified)
 }
+
+func TestLoginHandler(t *testing.T) {
+	router, db := setupRouter()
+	defer db.Exec("DROP TABLE users")
+
+	userInput := models.SignInInput{Email: "test@example.com", Password: "password123"}
+	hashedPassword, _ := handlers.HashPassword(userInput.Password)
+	db.Create(&models.User{Email: userInput.Email, Password: hashedPassword, Verified: true})
+
+	body, _ := json.Marshal(userInput)
+	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(body))
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var response map[string]string
+	json.Unmarshal(w.Body.Bytes(), &response)
+	assert.NotEmpty(t, response["token"])
+
+}
