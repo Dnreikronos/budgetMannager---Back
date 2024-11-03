@@ -111,3 +111,14 @@ func TestAuthMiddleware(t *testing.T) {
 
 	assert.Equal(t, http.StatusUnauthorized, w.Code)
 }
+
+func CreateUserBadRequest(t *testing.T) {
+	router, _ := setupRouter()
+
+	body := []byte(`{"email": "test@example.com"}`)
+	req, _ := http.NewRequest("POST", "/create", bytes.NewBuffer(body))
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
