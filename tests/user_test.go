@@ -93,3 +93,21 @@ func TestProfileHandler(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, wProfile.Code)
 }
+
+func TestAuthMiddleware(t *testing.T) {
+	router, _ := setupRouter()
+
+	//Without token
+	req, _ := http.NewRequest("GET", "/profile", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
+
+	//Invalid token
+	req.Header.Set("Authorization", "invalid-token")
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
+}
