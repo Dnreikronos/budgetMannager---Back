@@ -25,7 +25,7 @@ func setupRouter() (*gin.Engine, *gorm.DB) {
 	})
 	router.POST("/create", handlers.CreateUserHandler)
 	router.POST("/login", handlers.LoginHandler)
-	// router.GET("/profile", handlers.AuthMiddleware(), handlers.ProfileHandler)
+	router.GET("/profile", handlers.AuthMiddleware(), handlers.ProfileHandler)
 	return router, db
 }
 
@@ -67,4 +67,29 @@ func TestLoginHandler(t *testing.T) {
 	json.Unmarshal(w.Body.Bytes(), &response)
 	assert.NotEmpty(t, response["token"])
 
+}
+
+func TestProfileHandler(t *testing.T) {
+	router, db := setupRouter()
+	defer db.Exec("DROP TABLE users")
+
+	userInput := models.SignInInput{Email: "test@example.com", Password: "password123"}
+	hashedPassword, _ := handlers.HashPassword(userInput.Password)
+	db.Create(&models.User{Email: userInput.Email, Password: hashedPassword, Verified: true})
+
+	loginBody, _ := json.Marshal(userInput)
+	reqLogin, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(loginBody))
+	wLogin := httptest.NewRecorder()
+	router.ServeHTTP(wLogin, reqLogin)
+
+	var loginResponse map[string]string
+	json.Unmarshal(wLogin.Body.Bytes(), &loginResponse)
+	token := loginResponse["token"]
+
+	reqProfile, _ := http.NewRequest("GET", "/profile", nil)
+	reqProfile.Header.Set("Authorization", token)
+	wProfile := httptest.NewRecorder()
+	router.ServeHTTP(wProfile, reqProfile)
+
+	assert.Equal(t, http.StatusOK, wProfile.Code)
 }
