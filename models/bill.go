@@ -1,9 +1,9 @@
 package models
 
 import (
-	"time"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Bills struct {
@@ -17,6 +17,12 @@ type Bills struct {
 	Status    string    `json:"status"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type BillInput struct {
+	Value    int64  `json:"value"`
+	Category string `json:"category"`
+	Status   string `json:"status"`
 }
 
 func (b *Bills) BeforeCreate(d *gorm.DB) (err error) {
