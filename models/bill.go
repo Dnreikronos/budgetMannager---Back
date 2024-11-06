@@ -7,22 +7,22 @@ import (
 )
 
 type Bills struct {
-	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;"`
-	Value     int64     `json:"value"`
-	UserID    uuid.UUID `json:"user_id" gorm:"type:uuid;"`
-	User      User
-	BudgetID  uuid.UUID `json:"budget_id" gorm:"type:uuid;"`
-	Budget    Budget
-	Category  string    `json:"category"`
-	Status    string    `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
+	Value     int64     `json:"value" gorm:"not null"`
+	UserID    uuid.UUID `json:"user_id" gorm:"type:uuid;not null"`
+	User      User      `json:"-" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	BudgetID  uuid.UUID `json:"budget_id" gorm:"type:uuid;not null"`
+	Budget    Budget    `json:"-" gorm:"foreignKey:BudgetID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Category  string    `json:"category" gorm:"not null"`
+	Status    string    `json:"status" gorm:"default:'pending'"`
+	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
-type BillsInput struct {
-	Value    int64  `json:"value"`
-	Category string `json:"category"`
-	Status   string `json:"status"`
+type BillInput struct {
+	Value    float64 `json:"value" binding:"required,gt=0"`
+	Category string  `json:"category" binding:"required"`
+	Status   string  `json:"status" binding:"required,oneof='paid' 'unpaid' 'pending'"`
 }
 
 func (b *Bills) BeforeCreate(d *gorm.DB) (err error) {
