@@ -19,7 +19,7 @@ type Bills struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-type BillInput struct {
+type BillsInput struct {
 	Value    int64  `json:"value"`
 	Category string `json:"category"`
 	Status   string `json:"status"`
