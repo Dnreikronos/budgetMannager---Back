@@ -10,16 +10,23 @@ import (
 )
 
 var (
-	dbUser     = os.Getenv("${DB_USER}")
-	dbPassword = os.Getenv("${DB_PASSWORD}")
-	dbName     = os.Getenv("budgetmannager")
-	dbHost     = os.Getenv("${DB_HOST}")
-	dbPort     = os.Getenv("5432")
+	dbHost         = os.Getenv("DB_HOST")
+	dbPort         = os.Getenv("DB_PORT")
+	dbUser         = os.Getenv("DB_USER")
+	dbPassword     = os.Getenv("DB_PASSWORD")
+	dbName         = os.Getenv("POSTGRES_DB")
+	dbTimeZone     = os.Getenv("POSTGRES_TIME_ZONE")
+
 )
 
 func OpenConnection() (*gorm.DB, error) {
-	connectionInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		dbHost, dbPort, dbUser, dbPassword, dbName)
+	connectionInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=%s",
+		dbHost,
+		dbPort,
+		dbUser,
+		dbPassword,
+		dbName,
+		dbTimeZone,)
 
 	db, err := gorm.Open(postgres.Open(connectionInfo), &gorm.Config{})
 	if err != nil {
