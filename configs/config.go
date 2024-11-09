@@ -34,28 +34,25 @@ func init() {
 	viper.SetDefault("database.port", "${DB_PORT}")
 	viper.SetDefault("database.user", "${DB_USER}")
 	viper.SetDefault("database.pass", "${DB_PASSWORD}")
-	viper.SetDefault("database.database", "default_db") // Added default value
+	viper.SetDefault("database.database", "default_db") 
 }
 
 func Load() error {
-	// Load environment variables from .env file if it exists
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, relying on environment variables")
 	}
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath("./configs") // Adjust the path as needed
+	viper.AddConfigPath("./configs") 	
 	viper.AutomaticEnv()
 
-	// Read the configuration file
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			return err
 		}
 	}
 
-	// Initialize cfg
 	cfg = &config{
 		API: APIConfig{
 			Port: viper.GetString("api.port"),
@@ -64,7 +61,7 @@ func Load() error {
 			Host:     viper.GetString("database.host"),
 			Port:     viper.GetString("database.port"),
 			User:     viper.GetString("database.user"),
-			Password: viper.GetString("database.pass"), // Fixed key
+			Password: viper.GetString("database.pass"), 
 			Database: viper.GetString("database.database"),
 		},
 	}
