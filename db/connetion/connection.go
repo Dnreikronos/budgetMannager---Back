@@ -13,8 +13,8 @@ var (
 	dbHost         = os.Getenv("DB_HOST")
 	dbPort         = os.Getenv("DB_PORT")
 	dbUser         = os.Getenv("DB_USER")
-	dbPassword     = os.Getenv("DB_PASSWORD")
-	dbName         = os.Getenv("POSTGRES_DB")
+	dbPassword     = os.Getenv("POSTGRES_PASSWORD")
+	dbName         = os.Getenv("DB_NAME")
 	dbTimeZone     = os.Getenv("POSTGRES_TIME_ZONE")
 
 )
@@ -33,10 +33,6 @@ func OpenConnection() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// err = db.Ping()
-	// if err != nil {
-	// 	return nil, err
-	// }
 
 	log.Println("Sucessfuly connected to the database!")
 	return db, nil
