@@ -33,8 +33,8 @@ func init() {
 	viper.SetDefault("database.host", "${DB_HOST}")
 	viper.SetDefault("database.port", "${DB_PORT}")
 	viper.SetDefault("database.user", "${DB_USER}")
-	viper.SetDefault("database.pass", "${DB_PASSWORD}")
-	viper.SetDefault("database.database", "default_db") 
+	viper.SetDefault("database.pass", "${POSTGRES_PASSWORD}")
+	viper.SetDefault("database.database", "${DB_NAME}") 
 }
 
 func Load() error {
