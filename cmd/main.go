@@ -43,6 +43,11 @@ func main() {
 	r.POST("/register", handlers.CreateUserHandler)
 	r.POST("/login", handlers.LoginHandler)
 
+  authorized := r.Group("/", handlers.AuthMiddleware())
+  {
+    authorized.GET("/profile", handlers.ProfileHandler)
+  }
+
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 
 }
