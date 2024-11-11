@@ -21,6 +21,11 @@ func main() {
 		panic(err)
 	}
 
+  err = configs.Load()
+  if err != nil {
+    panic(fmt.Sprintf("Failed to load configuration: %v", err))
+  }
+
 	db, err := conn.OpenConnection()
 	if err != nil {
 		panic(err)
