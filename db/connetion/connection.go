@@ -16,7 +16,6 @@ var (
 	dbPassword     = os.Getenv("POSTGRES_PASSWORD")
 	dbName         = os.Getenv("DB_NAME")
 	dbTimeZone     = os.Getenv("POSTGRES_TIME_ZONE")
-
 )
 
 func OpenConnection() (*gorm.DB, error) {
