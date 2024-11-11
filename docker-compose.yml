@@ -17,6 +17,17 @@ services:
     depends_on:
       - postgres
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment: 
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+  
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -26,5 +37,6 @@ services:
       - postgresDB:/var/lib/postgresql/data
     env_file:
       - .env
+
 volumes:
   postgresDB:
