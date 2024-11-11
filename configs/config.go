@@ -21,11 +21,12 @@ type APIConfig struct {
 }
 
 type DBConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Database string
+	Host      string
+	Port      string
+	User      string
+	Password  string
+	Database  string
+  TimeZone  string
 }
 
 func init() {
@@ -34,7 +35,8 @@ func init() {
 	viper.SetDefault("database.port", "${DB_PORT}")
 	viper.SetDefault("database.user", "${DB_USER}")
 	viper.SetDefault("database.pass", "${POSTGRES_PASSWORD}")
-	viper.SetDefault("database.database", "${DB_NAME}") 
+	viper.SetDefault("database.database", "${POSTGRES_DB}") 
+  viper.SetDefault("database.timezone", "${POSTGRES_TIME_ZONE}") 
 }
 
 func Load() error {
@@ -63,7 +65,8 @@ func Load() error {
 			User:     viper.GetString("database.user"),
 			Password: viper.GetString("database.pass"), 
 			Database: viper.GetString("database.database"),
-		},
+		  TimeZone: viper.GetString("database.timezone"),
+    },
 	}
 
 	log.Printf("Database config: %+v", cfg.DB)
