@@ -35,6 +35,11 @@ func main() {
 
 	r := gin.Default()
 
+	r.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
+
 	corsOrigin := os.Getenv("CORS")
 
 	r.Use(cors.New(cors.Config{
