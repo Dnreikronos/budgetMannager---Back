@@ -1,5 +1,5 @@
 [api]
-port = "${PORT}"
+port = "9090"
 
 
 [database]
