@@ -86,7 +86,7 @@ func DeleteBillsHandler(c *gin.Context) {
 	if err := db.First(&bill, "id = ?", billID).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
-		} else {
+	 	} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
 		}
 		return
@@ -99,3 +99,27 @@ func DeleteBillsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"Status": "Bill deleted with sucess!"})
 }
 
+func GetBillHandler(c *gin.Context) {
+	billID := c.Param("ID")
+	if billID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"Status": "Bill ID is required"})
+		return
+	}
+
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": "Database connection error"})
+		return
+	}
+
+	var bill models.Bills
+	if err := db.First(&bill, "id = ?", billID).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
+	 	} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
+		}
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Bill": bill})
+}
