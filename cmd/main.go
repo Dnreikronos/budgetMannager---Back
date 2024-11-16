@@ -52,16 +52,18 @@ func main() {
 	//User
 	r.POST("/register", h.CreateUserHandler)
 	r.POST("/login", h.LoginHandler)
-	
+	authorized := r.Group("/", h.AuthMiddleware())
+  {
+    authorized.GET("/profile", h.ProfileHandler)
+  }
+
 	//Bills
 	r.PUT("/Bill/:id", h.UpdateBillsHandler)
 	r.DELETE("/Bill/:id", h.DeleteBillsHandler)
 	r.GET("/Bill/:id", h.GetBillHandler)
+	r.GET("/Bills", h.GetAllBillsHanddler)
 
-  authorized := r.Group("/", h.AuthMiddleware())
-  {
-    authorized.GET("/profile", h.ProfileHandler)
-  }
+  
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 
