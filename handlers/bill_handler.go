@@ -39,7 +39,7 @@ func UpdateBillsHandler(c *gin.Context) {
 	}
 
 	billID := c.Param("id")
-	if billID == " " {
+	if billID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"Status": "Bill ID is required"})
 		return
 	}
@@ -52,7 +52,11 @@ func UpdateBillsHandler(c *gin.Context) {
 
 	var bill models.Bills
 	if err := db.First(&bill, "id = ?", billID).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
+		}
 		return
 	}
 
@@ -94,3 +98,4 @@ func DeleteBillsHandler(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"Status": "Bill deleted with sucess!"})
 }
+
