@@ -48,10 +48,14 @@ func main() {
 		ExposeHeaders: []string{"Content-Length"},
 		MaxAge:        12 * time.Hour,
 	}))
-
+	
+	//User
 	r.POST("/register", h.CreateUserHandler)
 	r.POST("/login", h.LoginHandler)
+	
+	//Bills
 	r.PUT("/Bill/:id", h.UpdateBillsHandler)
+	r.DELETE("/Bill/:id", h.DeleteBillsHandler)
 
   authorized := r.Group("/", h.AuthMiddleware())
   {
