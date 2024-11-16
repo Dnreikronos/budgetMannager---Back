@@ -56,6 +56,7 @@ func main() {
 	//Bills
 	r.PUT("/Bill/:id", h.UpdateBillsHandler)
 	r.DELETE("/Bill/:id", h.DeleteBillsHandler)
+	r.GET("/Bill/:id", h.GetBillHandler)
 
   authorized := r.Group("/", h.AuthMiddleware())
   {
