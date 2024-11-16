@@ -86,7 +86,7 @@ func DeleteBillsHandler(c *gin.Context) {
 	if err := db.First(&bill, "id = ?", billID).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
-	 	} else {
+		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
 		}
 		return
@@ -116,7 +116,7 @@ func GetBillHandler(c *gin.Context) {
 	if err := db.First(&bill, "id = ?", billID).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
-	 	} else {
+		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
 		}
 		return
@@ -124,21 +124,21 @@ func GetBillHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"Bill": bill})
 }
 
-	func GetAllBillsHanddler(c *gin.Context) {
-		db, ok := c.MustGet("db").(*gorm.DB)
-		if !ok {
-			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Database connection error"})
-			return
+func GetAllBillsHanddler(c *gin.Context) {
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": "Database connection error"})
+		return
 	}
 
 	var results []models.Bills
 	if err := db.Table("bills").Find(&results).Error; err != nil {
-    if err == gorm.ErrRecordNotFound {
-        c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
-    } else {
-        c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
-    }
-    return
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"Status": "Bill not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Bill"})
+		}
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"Bills": results})
 }
