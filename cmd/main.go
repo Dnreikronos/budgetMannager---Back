@@ -58,6 +58,7 @@ func main() {
   }
 
 	//Bills
+	r.PUT("/CreateBill", h.CreateBillsHandler)
 	r.PUT("/Bill/:id", h.UpdateBillsHandler)
 	r.DELETE("/Bill/:id", h.DeleteBillsHandler)
 	r.GET("/Bill/:id", h.GetBillHandler)
