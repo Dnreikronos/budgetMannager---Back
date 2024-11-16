@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"os"
 	"time"
-	
 	"github.com/Dnreikronos/budgetMannager---Back/configs"
 	conn "github.com/Dnreikronos/budgetMannager---Back/db/connetion"
-	"github.com/Dnreikronos/budgetMannager---Back/handlers"
+	h "github.com/Dnreikronos/budgetMannager---Back/handlers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -49,14 +48,22 @@ func main() {
 		ExposeHeaders: []string{"Content-Length"},
 		MaxAge:        12 * time.Hour,
 	}))
-
-	r.POST("/register", handlers.CreateUserHandler)
-	r.POST("/login", handlers.LoginHandler)
-
-  authorized := r.Group("/", handlers.AuthMiddleware())
+	
+	//User
+	r.POST("/register", h.CreateUserHandler)
+	r.POST("/login", h.LoginHandler)
+	authorized := r.Group("/", h.AuthMiddleware())
   {
-    authorized.GET("/profile", handlers.ProfileHandler)
+    authorized.GET("/profile", h.ProfileHandler)
   }
+
+	//Bills
+	r.PUT("/Bill/:id", h.UpdateBillsHandler)
+	r.DELETE("/Bill/:id", h.DeleteBillsHandler)
+	r.GET("/Bill/:id", h.GetBillHandler)
+	r.GET("/Bills", h.GetAllBillsHanddler)
+
+  
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 
