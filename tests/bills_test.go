@@ -1,4 +1,4 @@
-package handlers_test
+package tests
 
 import (
 	"bytes"
@@ -115,5 +115,44 @@ func TestUpdateBillsHandler(t *testing.T) {
 	responseBill := response["Bill"].(map[string]interface{})
 	if responseBill["value"] != float64(updatedInput.Value) {
 		t.Errorf("expected updated value %v, got %v", updatedInput.Value, responseBill["value"])
+	}
+}
+
+func TestDeleteBillsHandler(t *testing.T) {
+	db := setupTestDB()
+	router := setupTestRouter(db)
+
+	testBill := models.Bills{
+		ID:       uuid.New(),
+		Value:    500,
+		Category: "Groceries",
+		Status:   "unpaid",
+	}
+	if err := db.Create(&testBill).Error; err != nil {
+		t.Fatalf("failed to create test bill: %v", err)
+	}
+
+	req, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("/Bill/%s", testBill.ID.String()), nil)
+	rec := httptest.NewRecorder()
+
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Errorf("expected status code 200, got %v", rec.Code)
+	}
+
+	var response map[string]interface{}
+	if err := json.Unmarshal(rec.Body.Bytes(), &response); err != nil {
+		t.Fatalf("failed to parse response: %v", err)
+	}
+
+	if response["Status"] != "Bill deleted with sucess!" {
+		t.Errorf("expected success message, got %v", response["Status"])
+	}
+
+	var count int64
+	db.Model(&models.Bills{}).Where("id = ?", testBill.ID).Count(&count)
+	if count != 0 {
+		t.Errorf("expected bill to be deleted, but it still exists")
 	}
 }
