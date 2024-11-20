@@ -161,7 +161,6 @@ func TestGetBillHandler(t *testing.T) {
 	db := setupTestDB()
 	router := setupTestRouter(db)
 
-	// Create a test bill
 	testBill := models.Bills{
 		ID:       uuid.New(),
 		Value:    2000,
@@ -172,7 +171,6 @@ func TestGetBillHandler(t *testing.T) {
 		t.Fatalf("failed to create test bill: %v", err)
 	}
 
-	// Perform get request
 	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/Bill/%s", testBill.ID.String()), nil)
 	rec := httptest.NewRecorder()
 
