@@ -156,3 +156,40 @@ func TestDeleteBillsHandler(t *testing.T) {
 		t.Errorf("expected bill to be deleted, but it still exists")
 	}
 }
+
+func TestGetBillHandler(t *testing.T) {
+	db := setupTestDB()
+	router := setupTestRouter(db)
+
+	// Create a test bill
+	testBill := models.Bills{
+		ID:       uuid.New(),
+		Value:    2000,
+		Category: "Insurance",
+		Status:   "paid",
+	}
+	if err := db.Create(&testBill).Error; err != nil {
+		t.Fatalf("failed to create test bill: %v", err)
+	}
+
+	// Perform get request
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/Bill/%s", testBill.ID.String()), nil)
+	rec := httptest.NewRecorder()
+
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Errorf("expected status code 200, got %v", rec.Code)
+	}
+
+	var response map[string]interface{}
+	if err := json.Unmarshal(rec.Body.Bytes(), &response); err != nil {
+		t.Fatalf("failed to parse response: %v", err)
+	}
+
+	responseBill := response["Bill"].(map[string]interface{})
+	if responseBill["category"] != testBill.Category {
+		t.Errorf("expected category %v, got %v", testBill.Category, responseBill["category"])
+	}
+}
+
