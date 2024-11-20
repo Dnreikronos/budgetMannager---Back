@@ -1,6 +1,12 @@
 package handlers_test
 
 import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/Dnreikronos/budgetMannager---Back/handlers"
 	"github.com/Dnreikronos/budgetMannager---Back/models"
 	"github.com/gin-gonic/gin"
@@ -35,4 +41,35 @@ func setupTestDB() *gorm.DB {
 		panic("Failed to migrate database")
 	}
 	return db
+}
+
+func TestCreateBillsHandler(t *testing.T) {
+	db := setupTestDB()
+	router := setupTestRouter(db)
+
+	billInput := models.BillInput{
+		Value:    1200,
+		Category: "Electricity",
+		Status:   "pending",
+	}
+	jsonData, _ := json.Marshal(billInput)
+
+	req, _ := http.NewRequest(http.MethodPut, "/CreateBill", bytes.NewBuffer(jsonData))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusCreated {
+		t.Errorf("expected status code 201, got %v", rec.Code)
+	}
+
+	var response map[string]interface{}
+	if err := json.Unmarshal(rec.Body.Bytes(), &response); err != nil {
+		t.Fatalf("failed to parse response: %v", err)
+	}
+
+	if response["Bill"] == nil {
+		t.Errorf("expected bill in response, got nil")
+	}
 }
