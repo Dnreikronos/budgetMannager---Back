@@ -71,7 +71,7 @@ func UpdateBillsHandler(c *gin.Context) {
 }
 
 func DeleteBillsHandler(c *gin.Context) {
-	billID := c.Param("ID")
+	billID := c.Param("id")
 	if billID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"Status": "Bill ID is required"})
 		return
