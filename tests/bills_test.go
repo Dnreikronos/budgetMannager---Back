@@ -1,26 +1,27 @@
-package tests
+package handlers_test
 
 import (
 	"github.com/Dnreikronos/budgetMannager---Back/handlers"
-	"github.com/Dnreikronos/budgetMannager---Back/models"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-
-	func setupRouterBills() (*gin.Engine, *gorm.DB) {
-	db, _ := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
-	db.AutoMigrate(&models.Bills{})
-
-	router := gin.Default()
-	router.Use(func(c *gin.Context) {
+func setupTestRouter(db *gorm.DB) *gin.Engine {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
+		c.Next()
 	})
-	router.POST("/createBill", handlers.CreateBillsHandler)
-	router.PUT("/Bill/id:", handlers.UpdateBillsHandler)
-	router.DELETE("/Bill/id:", handlers.DeleteBillsHandler)
-	router.GET("/Bill/id:", handlers.GetBillHandler)
-	router.GET("/Bills", handlers.GetAllBillsHanddler)
-	return router, db
+
+	// Register handlers
+	r.PUT("/CreateBill", handlers.CreateBillsHandler)
+	r.PUT("/Bill/:id", handlers.UpdateBillsHandler)
+	r.DELETE("/Bill/:id", handlers.DeleteBillsHandler)
+	r.GET("/Bill/:id", handlers.GetBillHandler)
+	r.GET("/Bills", handlers.GetAllBillsHanddler)
+
+	return r
 }
+
+
