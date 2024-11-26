@@ -48,7 +48,6 @@ func main() {
 		ExposeHeaders: []string{"Content-Length"},
 		MaxAge:        12 * time.Hour,
 	}))
-	
 	//User
 	r.POST("/register", h.CreateUserHandler)
 	r.POST("/login", h.LoginHandler)
@@ -64,7 +63,6 @@ func main() {
 	r.GET("/Bill/:id", h.GetBillHandler)
 	r.GET("/Bills", h.GetAllBillsHanddler)
 
-  
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 
