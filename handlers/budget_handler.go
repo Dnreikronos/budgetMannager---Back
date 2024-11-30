@@ -70,5 +70,34 @@ func UpdateBudgetHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"Budget": budget})
+}
 
+func DeleteBudgetHandler(c *gin.Context) {
+	budgetID := c.Param("id")
+	if budgetID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"Status": "Budget ID is required"})
+		return
+	}
+
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": "Database connection error"})
+		return
+	}
+
+	var budget models.Budget
+	if err := db.First(&budget, "id = ?", budgetID).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"Status": "Budget not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Budget"})
+		}
+		return
+	}
+
+	if err := db.Delete(&budget).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to delete Budget"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Status": "Budget deleted with sucess!"})
 }
