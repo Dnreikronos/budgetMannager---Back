@@ -124,3 +124,22 @@ func GetBudgetHandler(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"Budget": budget})
 }
+
+func GetAllBudgetHandler(c *gin.Context) {
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": "Database connection error"})
+		return
+	}
+
+	var results []models.Budget
+	if err := db.Table("budget").Find(&results).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"Status": "Budget not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"Status": "Failed to fetch Budget"})
+		}
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Budgets": results})
+}
