@@ -17,6 +17,13 @@ type Budget struct {
 	End      time.Time `json:"end"`
 }
 
+type BudgetInput struct {
+	Value    int64     `json:"value" binding:"required,gt=0"`
+	Currency string    `json:"currency" binding:"required"`
+	Start    time.Time `json:"start" binding:"required"`
+	End      time.Time `json:"end" binding:"required"`
+}
+
 func (b *Budget) BeforeCreate(d *gorm.DB) (err error) {
 	b.ID = uuid.New()
 	return
