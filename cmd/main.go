@@ -65,9 +65,9 @@ func main() {
 
 	//Budgets
 	r.POST("/CreateBudget", h.CreateBudgetHandler)
-	r.PUT("/Bill/:id", h.UpdateBudgetHandler)
-	r.DELETE("/Bill/:id", h.DeleteBudgetHandler)
-	r.GET("/Bill/:id", h.GetBudgetHandler)
+	r.PUT("/Budget/:id", h.UpdateBudgetHandler)
+	r.DELETE("/Budget/:id", h.DeleteBudgetHandler)
+	r.GET("/Budget/:id", h.GetBudgetHandler)
 	r.GET("/Budgets", h.GetAllBudgetHandler)
 
 	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
