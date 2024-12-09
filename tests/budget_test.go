@@ -125,7 +125,6 @@ func TestDeleteBudgetsHandler(t *testing.T) {
 	db := setupBudgetDB()
 	router := setupBudgetRouter(db)
 
-	// Create a test budget
 	testBudget := models.Budget{
 		ID:       uuid.New(),
 		Value:    1500,
@@ -137,28 +136,23 @@ func TestDeleteBudgetsHandler(t *testing.T) {
 		t.Fatalf("Failed to create test budget: %v", err)
 	}
 
-	// Perform DELETE request
 	req, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("/budget/%s", testBudget.ID.String()), nil)
 	rec := httptest.NewRecorder()
 	router.ServeHTTP(rec, req)
 
-	// Assert status code
 	if rec.Code != http.StatusOK {
 		t.Errorf("Expected status code 200, but got %v", rec.Code)
 	}
 
-	// Parse response
 	var response map[string]interface{}
 	if err := json.Unmarshal(rec.Body.Bytes(), &response); err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
 
-	// Assert response message (matching the handler)
 	if response["Status"] != "Budget deleted with sucess!" { // Note the typo in "sucess"
 		t.Errorf("Expected success message, got %v", response["Status"])
 	}
 
-	// Ensure budget is deleted from the database
 	var count int64
 	db.Model(&models.Budget{}).Where("id = ?", testBudget.ID).Count(&count)
 	if count != 0 {
