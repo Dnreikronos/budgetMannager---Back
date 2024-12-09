@@ -9,7 +9,7 @@ import (
 )
 
 func CreateBudgetHandler(c *gin.Context) {
-	var input models.Budget
+	var input models.BudgetInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": err.Error()})
 		return
@@ -133,7 +133,7 @@ func GetAllBudgetHandler(c *gin.Context) {
 	}
 
 	var results []models.Budget
-	if err := db.Table("budget").Find(&results).Error; err != nil {
+	if err := db.Table("budgets").Find(&results).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"Status": "Budget not found"})
 		} else {
