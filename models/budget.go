@@ -10,8 +10,6 @@ import (
 type Budget struct {
 	ID       uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;"`
 	Value    int64     `json:"value"`
-	UserID   uuid.UUID `json:"user_id" gorm:"type:uuid;"`
-	User     User
 	Currency string    `json:"currency"`
 	Start    time.Time `json:"start"`
 	End      time.Time `json:"end"`
