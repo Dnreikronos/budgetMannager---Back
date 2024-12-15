@@ -9,8 +9,6 @@ import (
 type Bills struct {
 	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;"`
 	Value     int64     `json:"value" gorm:"not null"`
-	UserID    uuid.UUID `json:"user_id" gorm:"type:uuid;not null"`
-	User      User      `json:"-" gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	BudgetID  uuid.UUID `json:"budget_id" gorm:"type:uuid;not null"`
 	Budget    Budget    `json:"-" gorm:"foreignKey:BudgetID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Category  string    `json:"category" gorm:"not null"`
