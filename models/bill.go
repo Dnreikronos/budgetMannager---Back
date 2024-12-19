@@ -18,9 +18,10 @@ type Bills struct {
 }
 
 type BillInput struct {
-	Value    int64  `json:"value" binding:"required,gt=0"`
-	Category string `json:"category" binding:"required"`
-	Status   string `json:"status" binding:"required,oneof='paid' 'unpaid' 'pending'"`
+	Value    int64     `json:"value" binding:"required,gt=0"`
+	Category string    `json:"category" binding:"required"`
+	Status   string    `json:"status" binding:"required,oneof='paid' 'unpaid' 'pending'"`
+	BudgetID uuid.UUID `json:"budget_id" binding:"required"`
 }
 
 func (b *Bills) BeforeCreate(d *gorm.DB) (err error) {
