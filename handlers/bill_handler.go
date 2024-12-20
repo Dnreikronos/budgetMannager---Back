@@ -18,6 +18,7 @@ func CreateBillsHandler(c *gin.Context) {
 		Value:    input.Value,
 		Category: input.Category,
 		Status:   input.Status,
+		BudgetID: input.BudgetID,
 	}
 
 	db, ok := c.MustGet("db").(*gorm.DB)
